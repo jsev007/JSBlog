@@ -1,5 +1,7 @@
 <p id="notice"><%= notice %></p>
 
+<%= gravatar_for @user, size:150 %>
+
 <p>
   <strong>Username:</strong>
   <%= @user.username %>
@@ -10,10 +12,9 @@
   <%= @user.email %>
 </p>
 
-<p>
-  <strong>Password digest:</strong>
-  <%= @user.password_digest %>
-</p>
 
 <%= link_to 'Edit', edit_user_path(@user) %> |
 <%= link_to 'Back', users_path %>
+
+<h2>Articles by <%= @user.username %></h2>
+<%= render 'articles/article', obj: @user.articles %>
