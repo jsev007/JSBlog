@@ -14,18 +14,22 @@
     <% obj.each do |article| %>
       <tr>
         <td><%= article.title %></td>
-        <td><%= article.description %></td>
-        <td><%= article.user.username %></td>
-        <td><%= article.created_at %></td>
-        <td><%= article.updated_at %></td>
+        <td><%= truncate(article.description, length: 50) %></td>
+        <td><%= article.user.username if article.user%></td>
+        <td><%= time_ago_in_words(article.created_at) %> ago.</td>
+        <td><%= time_ago_in_words(article.updated_at) %> ago.</td>
         <td><%= link_to 'Show', article %></td>
-        <td><%= link_to 'Edit', edit_article_path(article) %></td>
-        <td><%= link_to 'Destroy', article, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <% if logged_in? && current_user == article.user %>
+          <td><%= link_to 'Edit', edit_article_path(article) %></td>
+          <td><%= link_to 'Destroy', article, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <% end %>
       </tr>
     <% end %>
   </tbody>
 </table>
 
 <br>
+<% if logged_in? %>
+  <%= link_to 'New Article', new_article_path %>
+<% end %>
 
-<%= link_to 'New Article', new_article_path %>

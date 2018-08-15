@@ -1,0 +1,14 @@
+<div>
+  <%= link_to "Alpha blog", root_path, class: "navbar-brand", id: "logo" %>
+  <% if logged_in? %>
+    <div><%= link_to 'Log Out', logout_path, method: :delete %></div>
+    <div><%= link_to "New Article", new_article_path %></div>
+    <div><%= link_to "Edit your profile", edit_user_path(current_user) %></div>
+    <div><%= link_to "View your profile", user_path(current_user) %></div>
+    <div><%= link_to "Users", users_path %></div>
+  <% else %>
+    <div><%= link_to "Articles", articles_path %></div>
+    <div><%= link_to 'Log In', login_path %></div>
+    <div><%= link_to 'Sign Up', signup_path %></div>
+  <% end %>
+</div>

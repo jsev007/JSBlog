@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy]
+  before_action :require_same_user, only: [:edit, :update, :destroy] #add destroy
 
   # GET /users
   # GET /users.json
@@ -10,6 +11,7 @@ class UsersController < ApplicationController
   # GET /users/1
   # GET /users/1.json
   def show
+    @user_articles = @user.articles
   end
 
   # GET /users/new
@@ -70,5 +72,15 @@ class UsersController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def user_params
       params.require(:user).permit(:username, :email, :password)
+    end
+
+    def require_same_user
+      if current_user != @user
+        respond_to do |format|
+          format.html { redirect_to root_path, notice: 'You can only edit or delete your own profile.' }
+          format.json { head :no_content }
+          #redirect_to root_path
+        end
+      end
     end
 end

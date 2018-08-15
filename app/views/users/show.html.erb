@@ -12,8 +12,9 @@
   <%= @user.email %>
 </p>
 
-
-<%= link_to 'Edit', edit_user_path(@user) %> |
+<% if logged_in? && current_user == @user %>
+<%= link_to 'Edit', edit_user_path(@user) %> | 
+<% end %>
 <%= link_to 'Back', users_path %>
 
 <h2>Articles by <%= @user.username %></h2>
