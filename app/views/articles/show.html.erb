@@ -15,7 +15,7 @@
 <p><%= link_to @article.user.email, user_path(@article.user) %></p>
 <p><%= pluralize(@article.user.articles.count, "article") %></p>
 
-<% if logged_in? && current_user == @article.user %>
+<% if logged_in? && (current_user == @article.user || current_user.admin?) %>
   <div><%= link_to 'Edit', edit_article_path(@article) %></div>
   <div><%= link_to 'Destroy', @article, method: :delete, data: { confirm: 'Are you sure?' } %></div>
 <% end %>

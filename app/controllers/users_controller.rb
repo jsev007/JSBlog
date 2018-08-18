@@ -1,6 +1,7 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy]
-  before_action :require_same_user, only: [:edit, :update, :destroy] #add destroy
+  before_action :require_same_user, only: [:edit, :update, :destroy]
+  before_action :require_admin, only: [:destroy]
 
   # GET /users
   # GET /users.json
@@ -16,6 +17,7 @@ class UsersController < ApplicationController
 
   # GET /users/new
   def new
+    redirect_to articles_path if logged_in?
     @user = User.new
   end
 
@@ -59,7 +61,7 @@ class UsersController < ApplicationController
   def destroy
     @user.destroy
     respond_to do |format|
-      format.html { redirect_to users_url, notice: 'User was successfully destroyed.' }
+      format.html { redirect_to users_url, notice: 'User and all articles created by user have been deleted' }
       format.json { head :no_content }
     end
   end
@@ -76,12 +78,18 @@ class UsersController < ApplicationController
     end
 
     def require_same_user
-      if current_user != @user
+      if current_user != @user and !current_user.admin?
         respond_to do |format|
           format.html { redirect_to root_path, notice: 'You can only edit or delete your own profile.' }
           format.json { head :no_content }
-          #redirect_to root_path
         end
+      end
+    end
+
+    def require_admin
+      if logged_in? and !current_user.admin?
+        flash[:danger] = "Only admin users can perform that action"
+        redirect_to root_path
       end
     end
 end

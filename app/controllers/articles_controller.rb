@@ -75,7 +75,7 @@ class ArticlesController < ApplicationController
     end
 
     def require_same_user
-      if current_user != @article.user
+      if current_user != @article.user and !current_user.admin? 
         respond_to do |format|
           format.html { redirect_to root_path, notice: 'You can only edit or delete your own articles.' }
           format.json { head :no_content }

@@ -19,7 +19,7 @@
         <td><%= time_ago_in_words(article.created_at) %> ago.</td>
         <td><%= time_ago_in_words(article.updated_at) %> ago.</td>
         <td><%= link_to 'Show', article %></td>
-        <% if logged_in? && current_user == article.user %>
+        <% if logged_in? && (current_user == article.user || current_user.admin?) %>
           <td><%= link_to 'Edit', edit_article_path(article) %></td>
           <td><%= link_to 'Destroy', article, method: :delete, data: { confirm: 'Are you sure?' } %></td>
         <% end %>
@@ -29,7 +29,7 @@
 </table>
 
 <br>
-<% if logged_in? %>
+<% if logged_in? && current_user == obj.last.user  %>
   <%= link_to 'New Article', new_article_path %>
 <% end %>
 
