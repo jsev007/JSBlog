@@ -1,5 +1,23 @@
+<h1 align="center"><%= "Category: " + @category.name %></h1>
 <p id="notice"><%= notice %></p>
+<div align="center">
 
+<% if logged_in? and current_user.admin? %>
+  <div class="row">
+    <span class="badge"><%= link_to "Edit Category Name", edit_category_path(@category) %></span>
+  </div>
+<% end %>
+
+<%#= will_paginate @category_articles %> 
+</div>
+
+  <%= render 'articles/article', obj: @category_articles %>
+
+<div align="center">
+
+<%#= will_paginate @category_articles %>
+
+</div>
 <p>
   <%# <strong>Category: <%= @category.name %> </strong>
 </p>
@@ -13,4 +31,4 @@
   <div><%#= link_to 'Edit', edit_category_path(@category) %></div>
   <div><%#= link_to 'Destroy', @article, method: :delete, data: { confirm: 'Are you sure?' } %></div>
 <%# end %>
-<%#= link_to 'Back', categories_path %>
+<%= link_to 'Back', categories_path %>

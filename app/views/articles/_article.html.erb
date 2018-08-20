@@ -3,6 +3,7 @@
     <tr>
       <th>Title</th>
       <th>Description</th>
+      <th>Categories</th>
       <th>Created By</th>
       <th>Date Created</th>
       <th>Last Updated</th>
@@ -15,6 +16,11 @@
       <tr>
         <td><%= article.title %></td>
         <td><%= truncate(article.description, length: 50) %></td>
+        <% if article.categories.any? %>
+          <td><%= render article.categories %></td>
+        <% else %>
+          <td>---</td>
+        <% end %>
         <td><%= article.user.username if article.user%></td>
         <td><%= time_ago_in_words(article.created_at) %> ago.</td>
         <td><%= time_ago_in_words(article.updated_at) %> ago.</td>
@@ -29,7 +35,9 @@
 </table>
 
 <br>
-<% if logged_in? && current_user == obj.last.user  %>
-  <%= link_to 'New Article', new_article_path %>
-<% end %>
 
+<% if obj.exists? %>
+  <% if logged_in? && current_user == obj.last.user  %>
+    <%= link_to 'New Article', new_article_path %>
+  <% end %>
+<% end %>

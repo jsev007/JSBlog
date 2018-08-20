@@ -14,7 +14,7 @@
   <% end %>
 </div>
 <br>
-  <p>Categories:</p>
+  <p><%= link_to 'Categories:', categories_path %></p>
   <% Category.all.each do |category| %>
     <div><%= link_to "#{category.name}", category_path(category) %></div>
   <% end %>

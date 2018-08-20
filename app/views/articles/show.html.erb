@@ -9,6 +9,11 @@
   <strong>Description:</strong>
   <%= @article.description %>
 </p>
+
+<% if @article.categories.any? %>
+  <p>Categories: <%= render @article.categories %></p>
+<% end %>
+
 <strong>Created By:</strong>
 <p><%= link_to gravatar_for(@article.user), user_path(@article.user) %></p>
 <p><%= link_to @article.user.username, user_path(@article.user) %></p>
